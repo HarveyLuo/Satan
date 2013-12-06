@@ -1,6 +1,8 @@
 MedzFramework
 =============
 
+Medz Framework Framework released
+
 简单说明：
 
 	./demo.php 这个文件是配置的一个简单的demo，为了更方便的了解请运行下哦！
