@@ -1,10 +1,11 @@
 <?php
-define('COUNT', './conf/'); //¶¨ÒåÅäÖÃÎÄ¼ş
+define('COUNT', './conf/'); //å®šä¹‰é…ç½®æ–‡ä»¶
 load::jz(COUNT . 'global');
 $getBase = load::returnInclude(COUNT . 'mvca');
 load::jz(COUNT . 'jc');
 function __autoload($src) {
-	$xml = simplexml_load_file(PATH . 'control/' . POR . '/install.xml');
+	//$xml = simplexml_load_file(PATH . '/control/' . POR . '/install.xml');
+	$xml = fileDetact::xml(PATH . '/control/' . POR . '/install');
 	foreach($xml->Directory->list as $v) {
 		if(fileDetact::pdwj(CCS . $v . '/' . $src . '.php')) {
 			load::jz(CCS . $v . '/' . $src);
@@ -15,15 +16,15 @@ function __autoload($src) {
 	}
 	if(fileDetact::pdwj(CLA . $src . '.class.php')) {
 		load::classJz($src);
-		$pd = false;
 	} else if(fileDetact::pdwj(CCS . $src . '.php')) {
 		load::jz(CCS . $src);
 		$pd = false;
 	} else if($pd) {
-		exit($src . '.php(' . $src . '.class.php)Õâ¸öÀàÎÄ¼ş²»´æÔÚ£¡');
+		exit($src . '.php(' . $src . '.class.php)è¿™ä¸ªç±»æ–‡ä»¶ä¸å­˜åœ¨ï¼');
 	}
 }
 class load {
+	
 	public static function export() {
 		global $getBase;
 		self::jz(CCC . $getBase['m'] . '/' . $getBase['c'] . '.class');

@@ -9,9 +9,32 @@ class fileDetact {
 		}
 	}
 	//创建目录
-	public static function cjml($name) {
-		mkdir($name);
+	public static function cjml( $name, $mode = 0777) {
+		@mkdir($name, $mode);
 	}
+	
+	//递归创建目录
+	public static function mkdirs($dir, $mode = 0777) {
+		$dirArray = explode("/",$dir);
+		$dirArray = array_filter($dirArray);
+		$created = "";
+		foreach($dirArray as $key => $value){
+			if(!empty($created)){
+				$created .= "/".$value;
+				if(!is_dir($created)){
+					//@mkdir($created,$mode);
+					self::cjml($created, $mode);
+				}
+			}else{
+				if(!is_dir($value)){
+					//@mkdir($value,$mode);
+					self::cjml($value, $mode);
+				}
+				$created .= $value;
+			}
+		}
+	}
+	
 	//判断文件是否存在
 	public static function pdwj($name) {
 		if(file_exists($name)) {
@@ -21,7 +44,7 @@ class fileDetact {
 		}
 	}
 	//创建文件和写入文件
-	public static function cjwj($name, $data) {
+	public static function cjwj($name, $data = '') {
 		file_put_contents($name,$data);
 	}
 	//读取文件
