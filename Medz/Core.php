@@ -53,7 +53,7 @@ class Core {
 	public static function run() {
 		try {
 			// # 初始化配置
-			self::getInstance('\Core')->defineInit();
+			self::getInstance('\Core')->defaultInit();
 
 			// #运行前的检查
 			self::getInstance('\Core')->check();
@@ -165,7 +165,7 @@ class Core {
 	}
 
 	// # 初始化配置
-	private function defineInit() {
+	private function defaultInit() {
 		// # 设置核心类所在目录
 		\Boot\Define::$core or \Boot\Define::$core = dirname(__FILE__) . \Boot\Define::$_;
 

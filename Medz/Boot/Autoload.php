@@ -13,7 +13,7 @@ class AutoLoad {
 
 		// # 如果文件不存在中断自动加载抛出异常
 		if(!file_exists($classPath)) {
-			throw new \Exception("Error:自动加载的类不存在", 503);
+			throw new \Exception("Error:自动加载的类不存在", 403);
 		}
 
 		// #引入文件
