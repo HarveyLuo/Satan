@@ -140,27 +140,27 @@ class Core {
 	private function check() {
 		// #检查PHP版本
 		if(PHP_VERSION < '5.3.0') {
-			throw new \Exception('PHP版本小于程序运行最低版本（PHP Version 5.3.0）', 503);
+			throw new \Exception('PHP版本小于程序运行最低版本（PHP Version 5.3.0）', 403);
 
 		// # 检查环境是否有set_exception_handler函数
 		} else if(function_exists('set_exception_handler') === false) {
-			throw new \Exception('程序需要的set_exception_handler函数不存在！', 503);
+			throw new \Exception('程序需要的set_exception_handler函数不存在！', 403);
 
 		// # 检查单例重载的反射类是否存在
 		} else if(class_exists('ReflectionClass') === false) {
-			throw new \Exception('程序必须的反射类“ReflectionClass”不存在！', 503);
+			throw new \Exception('程序必须的反射类“ReflectionClass”不存在！', 403);
 
 		// # 检查func_get_args函数是否存在
 		} else if(function_exists('func_get_args') === false) {
-			throw new \Exception('程序所需的func_get_args函数不存在', 503);
+			throw new \Exception('程序所需的func_get_args函数不存在', 403);
 		
 		// # 检查call_user_func_array函数是否存在
 		} else if(function_exists('call_user_func_array') === false) {
-			throw new \Exception('程序所需的call_user_func_array函数不存在', 503);
+			throw new \Exception('程序所需的call_user_func_array函数不存在', 403);
 			
 		// # 检查应用目录是否存在
 		} else if(is_dir(\Boot\Define::$app) === false) {
-			throw new \Exception('应用目录“' . \Boot\Define::$app . '”不存在', 503);
+			throw new \Exception('应用目录“' . \Boot\Define::$app . '”不存在', 403);
 		}
 	}
 
