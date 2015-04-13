@@ -2,44 +2,46 @@
 namespace Http;
 class Request {
 
-	protected $type = array(
-		'_GET',
-		'_POST',
-		'_REQUEST',
-		'_EVN',
-		'_PUT'
-	);
+	// # 构造方法
+	public function __construct() {
+		// # 判断是否存在get_magic_quotes_gpc 以及存在是否有传参
+		if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
+			// # 转义为安全的get方式数据
+			isset($_GET)     and $_GET     = $this->_stripSlashes($_GET);
 
-	// # 获取GET请求
-	public function get($key = null) {
-		return $this->getRequestByType('_GET', $key);
-	}
+			// # 转义为安全的post方式数据
+			isset($_POST)    and $_POST    = $this->_stripSlashes($_POST);
 
-	// # 获取post请求
-	public function post($key = null) {
-		return $this->getRequestByType('_POST', $key);
-	}
+			// # 转义为安全的reuqest数据
+			isset($_REQUEST) and $_REQUEST = $this->_stripSlashes($_REQUEST);
 
-	// # 获取类型请求
-	private function getRequestByType($type = '_GET', $key = null, $defaultValue = null) {
-		if(!in_array($type, $this->type)) {
-			throw new \Exception("获取参数的类型不合法", 403);
+			// # 转义为安全的coookie数据
+			isset($_COOKIE)  and $_COOKIE  = $this->_stripSlashes($_COOKIE);
 		}
-		//$request = $$type;
-		$_GET = 123;
-		return $$type;
-		// if(!isset($request) and $key) {
-		// 	return $defaultValue;
-		// } else if(!$key) {
-		// 	return $request;
-		// } else if(is_array($key)) {
-		// 	foreach ($key as &$value) {
-		// 		$value = $this->getRequestByType($type, $value);
-		// 	}
-		// 	unset($value);
-		// 	unset($key);
-		// 	return $key;
-		// }
-		// return isset($request[$key]) ? $request[$key] : $defaultValue;
+	}
+
+	// # 获取请求的参数
+	public function get($key = null, $defaultValue = null) {
+		if(!$key) {
+			return array_merge($_GET, $_POST);
+		} else if(isset($_GET[$key])) {
+			return $_GET[$key];
+		} else if(isset($_POST[$key])) {
+			return $_POST[$key];
+		} else if(isset($_REQUEST[$key])) {
+			return $_REQUEST[$key];
+		}
+		return $defaultValue;
+	}
+
+	// # 设置request全局变量
+	public function set(string $key, $value = null) {
+		$_REQUEST[$key] = $this->_stripSlashes($value);
+		return $this;
+	}
+
+	// # 采用stripslashes反转义特殊字符
+	private function _stripSlashes(&$data) {
+		return is_array($data) ? array_map(array($this, '_stripSlashes'), $data) : stripslashes($data);
 	}
 }

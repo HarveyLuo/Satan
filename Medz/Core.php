@@ -4,6 +4,7 @@
  *	name : seven
  *  email: lovevipdsw@vip.qq.com
  */
+use \Boot\Error as Error;
 class Core {
 
 	// #文件加载列表
@@ -34,13 +35,17 @@ class Core {
 			// #加载自动加载类文件
 			self::import(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Boot' . DIRECTORY_SEPARATOR . 'Error.php');
 
-			// #设置顶级异常处理类
-			function_exists('set_exception_handler') and set_exception_handler(function($e) {
-				self::getInstance('\Boot\Error')->exception($e);
-			});
+			// # 设置致命错误处理方法
+			function_exists('register_shutdown_function') and register_shutdown_function('\Boot\Error::fatalError');
+
+			// #设置异常处理类
+			function_exists('set_exception_handler')      and set_exception_handler('\Boot\Error::exception');
+
+			// # 自定义错误处理类
+			function_exists('set_error_handler')          and set_error_handler('\Boot\Error::errorHandler');
 
 			// #禁用字符串自动转义
-			if(function_exists('set_magic_quotes_runtime') and PHP_VERSION < '5.3.0') {
+			if(function_exists('set_magic_quotes_runtime')and PHP_VERSION < '5.3.0') {
 				set_magic_quotes_runtime(false);
 			}
 
@@ -51,21 +56,17 @@ class Core {
 
 	// #运行
 	public static function run() {
-		try {
-			// # 初始化配置
-			self::getInstance('\Core')->defaultInit();
+		// # 初始化配置
+		self::getInstance('\Core')->defaultInit();
 
-			// #运行前的检查
-			self::getInstance('\Core')->check();
+		// #运行前的检查
+		self::getInstance('\Core')->check();
 
-			// #设置运行模式
-			self::getInstance('\Core')->runMode();
+		// #设置运行模式
+		self::getInstance('\Core')->runMode();
 			
-			// #注册自动加载方法
-			spl_autoload_register('\Boot\AutoLoad::import');		
-		} catch (Exception $e) {
-			self::getInstance('\Boot\Error')->exception($e);
-		}
+		// #注册自动加载方法
+		spl_autoload_register('\Boot\AutoLoad::import');		
 	}
 
 	// #设置常用值
@@ -140,27 +141,27 @@ class Core {
 	private function check() {
 		// #检查PHP版本
 		if(PHP_VERSION < '5.3.0') {
-			throw new \Exception('PHP版本小于程序运行最低版本（PHP Version 5.3.0）', 403);
+			Error::thrown('PHP版本小于程序运行最低版本（PHP Version 5.3.0）', 403);
 
 		// # 检查环境是否有set_exception_handler函数
 		} else if(function_exists('set_exception_handler') === false) {
-			throw new \Exception('程序需要的set_exception_handler函数不存在！', 403);
+			Error::thrown('程序需要的set_exception_handler函数不存在！', 403);
 
 		// # 检查单例重载的反射类是否存在
 		} else if(class_exists('ReflectionClass') === false) {
-			throw new \Exception('程序必须的反射类“ReflectionClass”不存在！', 403);
+			Error::thrown('程序必须的反射类“ReflectionClass”不存在！', 403);
 
 		// # 检查func_get_args函数是否存在
 		} else if(function_exists('func_get_args') === false) {
-			throw new \Exception('程序所需的func_get_args函数不存在', 403);
+			Error::thrown('程序所需的func_get_args函数不存在', 403);
 		
 		// # 检查call_user_func_array函数是否存在
 		} else if(function_exists('call_user_func_array') === false) {
-			throw new \Exception('程序所需的call_user_func_array函数不存在', 403);
+			Error::thrown('程序所需的call_user_func_array函数不存在', 403);
 			
 		// # 检查应用目录是否存在
 		} else if(is_dir(\Boot\Define::$app) === false) {
-			throw new \Exception('应用目录“' . \Boot\Define::$app . '”不存在', 403);
+			Error::thrown('应用目录“' . \Boot\Define::$app . '”不存在', 403);
 		}
 	}
 

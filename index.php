@@ -15,14 +15,16 @@ include 'Medz/core.php';
 \Boot\Define::$core  = dirname(__FILE__) . \Boot\Define::$_ . 'Medz' . \Boot\Define::$_;
 
 // # 定义APP项目目录 <可选>
-\Boot\Define::$app   = \Boot\Define::$core . 'Application' . \Boot\Define::$_;
+\Boot\Define::$app   = dirname(__FILE__) . \Boot\Define::$_ . 'Application' . \Boot\Define::$_;
 
 // # 定义是否开启debug（是否开启开发者模式），默认关闭 <可选>
-\Boot\Define::$debug = true;
+\Boot\Define::$debug = false;
 
 // # 更多配置请查看框架目录/Boot/Define.php
 
 // #运行项目
 \Core::run();
 
-var_dump((new \Http\Request)->get());
+var_dump(parse_url('http://localhost/store/index.php/a/a///a:123/456'));
+
+var_dump($_SERVER);
