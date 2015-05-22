@@ -59,9 +59,6 @@ class Core {
 		// # 初始化配置
 		self::getInstance('\Core')->defaultInit();
 
-		// #运行前的检查
-		self::getInstance('\Core')->check();
-
 		// #设置运行模式
 		self::getInstance('\Core')->runMode();
 			
@@ -132,6 +129,9 @@ class Core {
 	private function runMode() {
 		if(\Boot\Define::$debug) {
 			error_reporting(E_ALL);
+
+			// #运行前的检查
+			self::getInstance('\Core')->check();
 		} else {
 			error_reporting(E_ERROR | E_PARSE);
 		}
