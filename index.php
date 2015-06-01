@@ -1,6 +1,6 @@
 <?php
 // #加载核心文件
-include 'Medz/core.php';
+include 'Medz/Core.php';
 
 // # 初始化框架
 \Core::init();
