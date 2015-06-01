@@ -4,16 +4,16 @@ defined('MEDZ') or exit('Forbidden');
 class Define {
 
 	// #定义系统目录分割符
-	public static $_    = DIRECTORY_SEPARATOR;
+	public static $_                 = DIRECTORY_SEPARATOR;
 
 	// #定义核心目录位置
-	public static $core = '';
+	public static $core              = '';
 
 	// #定义网站应用位置
-	public static $app  = '';
+	public static $app               = '';
 
 	// # 定义默认应用
-	public static $defaultApp = 'Home';
+	public static $defaultApp        = 'Home';
 
 	// # 定义默认控制器
 	public static $defaultController = 'Index';

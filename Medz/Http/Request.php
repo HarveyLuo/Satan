@@ -42,6 +42,25 @@ class Request {
 
 	// # 采用stripslashes反转义特殊字符
 	private function _stripSlashes(&$data) {
-		return is_array($data) ? array_map(array($this, '_stripSlashes'), $data) : stripslashes($data);
+		if (is_array($data)) {
+			return array_map(array($this, '_stripSlashes'), $data);
+		}
+
+		return stripslashes($data);
+	}
+
+	/**
+	 * 魔术方法，用于快捷调用获取数据
+	 *
+	 * @return string|object 
+	 * @author Medz Seven <lovevipdsw@vip.qq.com>
+	 **/
+	public function __invoke($key = null, $value = null)
+	{
+		if ($key and $value) {
+			return $this->set($key, $value);
+		}
+		
+		return $this->get($key);
 	}
 }
