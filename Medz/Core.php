@@ -1,10 +1,11 @@
 <?php
-/**
- *	核心类
- *	name : seven
- *  email: lovevipdsw@vip.qq.com
- */
 use \Boot\Error as Error;
+/**
+ * 核心类
+ *
+ * @package Core
+ * @author  Medz Seven <lovevipdsw@vip.qq.com>
+ **/
 class Core {
 
 	// #文件加载列表
@@ -82,15 +83,6 @@ class Core {
 
 	// #单例获取实例类
 	public static function getInstance($name) {
-		// # 定义为单例
-		$is       = true;
-
-		// #判断是否是数组，如果是数组判断是否是单例
-		if(is_array($name)) {
-			$is   = $name['is'];
-			$args = $name['args'];
-			$name = $name['name'];
-		}
 
 		// #检查是否已经存在单例
 		if(isset(self::$_classList[$name]) and $is) {
@@ -108,11 +100,6 @@ class Core {
 			$class         = call_user_func_array(array($reflection, 'newInstance'), $args);
 			unset($reflection);
 			unset($args);
-		}
-
-		// # 判断当前实例是否为单例，如果不是直接返回new class
-		if(!$is) {
-			return $class;
 		}
 
 		// # 加入单例列表
@@ -173,4 +160,4 @@ class Core {
 		// #设置应用所在目录
 		\Boot\Define::$app  or \Boot\Define::$core . 'Application' . \Boot\Define::$_;
 	}
-}
+} // END class Core
