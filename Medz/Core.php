@@ -1,5 +1,6 @@
 <?php
-use \Boot\Error as Error;
+use \Boot\Error;
+use \Boot\Route;
 /**
  * 核心类
  *
@@ -8,19 +9,19 @@ use \Boot\Error as Error;
  **/
 class Core {
 
-	// #文件加载列表
+	// # 文件加载列表
 	private static $_loadlist  = array();
 
-	// #类 new列表
+	// # 实例化类列表
 	private static $_classList = array();
 
-	// #是否已经初始化
+	// # 是否已经初始化
 	private static $_isInit    = false;
 
 	// #初始化
-	public static function init() {
+	final public static function init() {
 		// # 设置网页编码
-		header('charset=UTF-8');	
+		header('charset=UTF-8');
 
 		// #判断是否初始化过了
 		if(!self::$_isInit) {
@@ -56,7 +57,7 @@ class Core {
 	}
 
 	// #运行
-	public static function run() {
+	final public static function run() {
 		// # 初始化配置
 		self::getInstance('\Core')->defaultInit();
 
@@ -64,7 +65,10 @@ class Core {
 		self::getInstance('\Core')->runMode();
 			
 		// #注册自动加载方法
-		spl_autoload_register('\Boot\AutoLoad::import');		
+		spl_autoload_register('\Boot\AutoLoad::import');
+
+		// # 运行
+		self::getInstance('\Boot\Application')->run();
 	}
 
 	// #设置常用值
@@ -73,7 +77,7 @@ class Core {
 	}
 
 	// #单例加载文件
-	public static function import($path) {
+	final public static function import($path) {
 		if(file_exists($path) and !in_array($path, self::$_loadlist)) {
 			array_push(self::$_loadlist, $path);
 			include $path;
@@ -82,10 +86,10 @@ class Core {
 	}
 
 	// #单例获取实例类
-	public static function getInstance($name) {
+	final public static function getInstance($name) {
 
 		// #检查是否已经存在单例
-		if(isset(self::$_classList[$name]) and $is) {
+		if(isset(self::$_classList[$name])) {
 			return self::$_classList[$name];
 
 		// # 检查是否有构造方法 如果没有直接实例化
@@ -94,11 +98,9 @@ class Core {
 
 		// # 反射实例化
 		} else {
-			$args or $args = func_get_args();
-						     array_shift($args);
-			$reflection    = new ReflectionClass($name); // #实例一个反射类
-			$class         = call_user_func_array(array($reflection, 'newInstance'), $args);
-			unset($reflection);
+			isset($args) or $args = func_get_args();
+						    array_shift($args);
+			$class        = call_user_func_array(array(Route::addClass($name), 'newInstance'), $args);
 			unset($args);
 		}
 

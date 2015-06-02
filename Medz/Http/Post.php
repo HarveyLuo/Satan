@@ -1,13 +1,13 @@
 <?php
 namespace Http;
-use \Http\Request as Request;
+use \Http\Request;
 /**
  * $_POST操作类
  *
  * @package Http.Post
  * @author Medz Seven <lovevipdsw@vip.qq.com>
  **/
-class Post extends Requset
+class Post extends Request
 {
 	/**
 	 * 获取POST数据
@@ -35,7 +35,7 @@ class Post extends Requset
 	 * @return object Post
 	 * @author Medz Seven <lovevipdsw@vip.qq.com>
 	 **/
-	public function set(string $key, $value = null)
+	public function set($key, $value = null)
 	{
 		$_POST[$key] = $this->_stripSlashes($value);
 		return $this;

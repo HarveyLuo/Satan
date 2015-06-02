@@ -13,7 +13,7 @@ class AutoLoad {
 
 		// # 如果文件不存在中断自动加载抛出异常
 		if(!file_exists($classPath)) {
-			Error::thrown("Error:自动加载的类文件不存在", 403);
+			Error::thrown('Error:自动加载的类文件(' . $classPath . ')不存在', 403);
 		}
 
 		// #引入文件
@@ -29,9 +29,20 @@ class AutoLoad {
 
 	// #获取文件路径
 	public function getPath($path, $suffix = '.php') {
+		// # 判断框架下文件是否存在
 		if(file_exists(\Boot\Define::$core . $path . $suffix)) {
 			$path = \Boot\Define::$core . $path . $suffix;
+
+		// # 判断在项目中是否存在
+		} elseif (file_exists(\Boot\Define::$app . $path . $suffix)) {
+			$path = \Boot\Define::$app . $path . $suffix;
+
+		// # 对控制器文件处理，判断是否是控制器文件，文件是否存在;
+		} elseif (file_exists(\Boot\Define::$app . $path . \Boot\Define::$controllerSuffix . $suffix)) {
+			$path = \Boot\Define::$app . $path . \Boot\Define::$controllerSuffix . $suffix;
 		}
+
+		// # 返回文件路径
 		return $path;
 	}
 }

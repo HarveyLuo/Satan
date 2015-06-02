@@ -14,7 +14,7 @@ class Get extends Request {
 	}
 
 	// # 设置get
-	public function set(string $key, $value = null) {
+	public function set($key, $value = null) {
 		$_GET[$key] = $this->_stripSlashes($value);
 		return $this;
 	}

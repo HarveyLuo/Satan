@@ -1,6 +1,6 @@
 <?php
 namespace Boot;
-use \Exception as Exception;
+use \Exception;
 defined('MEDZ') or exit('Forbidden');
 class Error extends Exception {
 	
