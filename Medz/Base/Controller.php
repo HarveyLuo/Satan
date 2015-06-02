@@ -1,5 +1,5 @@
 <?php
 namespace Base;
-class Controller {
+abstract class Controller {
 	// # code...
 }

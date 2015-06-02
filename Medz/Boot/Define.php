@@ -36,7 +36,4 @@ class Define {
 	// # 定义配置文件所在目录
 	public static $configDir;
 
-	// # 路由器配置文件位置
-	public static $RouteFile;
-
 }

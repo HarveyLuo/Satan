@@ -20,9 +20,6 @@ include 'Medz/Core.php';
 // # 定义是否开启debug（是否开启开发者模式），默认关闭 <可选>
 \Boot\Define::$debug = true;
 
-// # 设置路由配置文件地址
-\Boot\Define::$RouteFile = dirname(__FILE__) . \Boot\Define::$_ . '.route';
-
 // # 更多配置请查看框架目录/Boot/Define.php
 
 // #运行项目

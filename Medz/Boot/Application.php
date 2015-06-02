@@ -1,5 +1,6 @@
 <?php
 namespace Boot;
+use \Base\Controller;
 /**
  * 项目运行类
  *
