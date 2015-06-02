@@ -87,7 +87,6 @@ class Core {
 
 	// #单例获取实例类
 	final public static function getInstance($name) {
-
 		// #检查是否已经存在单例
 		if(isset(self::$_classList[$name])) {
 			return self::$_classList[$name];

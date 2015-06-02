@@ -1,5 +1,5 @@
 <?php
-namespace Home\Controller\Index
+namespace Home\Controller;
 /**
  * 默认控制器
  *
