@@ -30,14 +30,23 @@ class Route
 		// return self::$classList[$namespace]->getMethods();
 		// return \Core::getInstance('\Drive\Route\Pathinfo')->get();
 		// return $str;
-		return self::getControllerNamespaceAll();
+		$docs = array();
+		foreach (self::getControllerNamespaceAll() as $namespace) {
+			self::addClass($namespace);
+
+			foreach (self::$classList[$namespace]->getMethods() as $doc) {
+				$docs[$namespace][$doc->name] = $doc->getDocComment();
+				// $docs[$namespace] = $doc;
+			}
+		}
+		return $docs;
 	}
 
 	/**
-	 * undocumented function
+	 * 获取所以Controller的命名空间
 	 *
-	 * @return void
-	 * @author 
+	 * @return array
+	 * @author Medz Seven <lovevipdsw@vip.qq.com>
 	 **/
 	public static function getControllerNamespaceAll()
 	{

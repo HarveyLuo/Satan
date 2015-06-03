@@ -1,5 +1,6 @@
 <?php
 namespace Home\Controller;
+use \Base\Controller;
 /**
  * 默认控制器
  *
@@ -14,7 +15,7 @@ class Index extends Controller
 	 *
 	 * @return void
 	 * @author Medz Seven <lovevipdsw@vip.qq.com>
-	 * @route /id/{} 
+	 * @route /id/{id|default=1} 
 	 **/
 	public function indexAcion()
 	{
