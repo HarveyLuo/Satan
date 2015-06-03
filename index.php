@@ -6,7 +6,7 @@ include 'Medz/Core.php';
 \Core::init();
 
 // # 是否是多个应用运行模式 <true|default=true>
-\Boot\Define::$isApps= false;
+\Boot\Define::$isApps= true;
 
 // # 目录配置后面必须带有目录分割符
 // # 各个目录单独配置，支持自定义相关目录位置
@@ -25,3 +25,4 @@ include 'Medz/Core.php';
 // #运行项目
 \Core::run();
 
+// END

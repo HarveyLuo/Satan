@@ -36,4 +36,7 @@ class Define {
 	// # 定义配置文件所在目录
 	public static $configDir;
 
+	// # 定义php文件后缀
+	public static $PHPFileSuffix     = '.php';
+
 }

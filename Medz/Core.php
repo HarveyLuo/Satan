@@ -68,7 +68,7 @@ class Core {
 		spl_autoload_register('\Boot\AutoLoad::import');
 
 		// # 运行
-		self::getInstance('\Boot\Application')->run();
+		self::getInstance('\Boot\Application');
 	}
 
 	// #设置常用值

@@ -28,7 +28,9 @@ class AutoLoad {
 	}
 
 	// #获取文件路径
-	public function getPath($path, $suffix = '.php') {
+	public function getPath($path) {
+		$suffix = \Boot\Define::$PHPFileSuffix;
+
 		// # 判断框架下文件是否存在
 		if(file_exists(\Boot\Define::$core . $path . $suffix)) {
 			$path = \Boot\Define::$core . $path . $suffix;

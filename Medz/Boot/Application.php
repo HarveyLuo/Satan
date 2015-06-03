@@ -38,19 +38,13 @@ class Application
 	 **/
 	public $namespace;
 
-	/**
-	 * 运行
-	 *
-	 * @return void
-	 * @author Medz Seven <lovevipdsw@vip.qq.com>
-	 **/
-	public function run()
-	{
-		var_dump(Route::get('Http\Post', 'get'));
-	}
-
-	function __construct() {
-		// $this->app = $this->getAppName
+	final public function __construct() {
+		// // var_dump(basename(__FILE__));
+		// // var_dump(\Core::getInstance('\Http\Server')->get());
+		// var_dump(Route::get('Http\Post', 'get'));
+		// $info = Route::get();
+		// var_dump(scandir(\Boot\Define::$app));
+		var_dump(Route::get());
 	}
 
 } // END class Application
