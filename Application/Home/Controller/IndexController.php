@@ -15,9 +15,9 @@ class Index extends Controller
 	 *
 	 * @return void
 	 * @author Medz Seven <lovevipdsw@vip.qq.com>
-	 * @route /id/{id|default=1} 
+	 * @route /id/{id|default="1",pattern="/d"}
 	 **/
-	public function indexAcion()
+	public function indexAcion($id)
 	{
 	}
 
