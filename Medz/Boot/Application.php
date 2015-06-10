@@ -44,6 +44,10 @@ class Application
 		// $info = Route::get();
 		// var_dump(scandir(\Boot\Define::$app));
 		var_dump(Route::get());
+
+		var_dump(parse_url(\Core::getInstance('\Http\Server')->getRequestURL()));
+
+		var_dump(Drive::getInstance('Route', 'PathInfo')->getDrive()->get());
 	}
 
 } // END class Application

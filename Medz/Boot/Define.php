@@ -39,4 +39,7 @@ class Define {
 	// # 定义php文件后缀
 	public static $PHPFileSuffix     = '.php';
 
+	// # 定义驱动所在目录
+	public static $DriveDir;
+
 }

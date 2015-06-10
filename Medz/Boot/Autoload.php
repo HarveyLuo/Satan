@@ -13,7 +13,7 @@ class AutoLoad {
 
 		// # 如果文件不存在中断自动加载抛出异常
 		if(!file_exists($classPath)) {
-			Error::thrown('Error:自动加载的类文件(' . $classPath . ')不存在', 403);
+			Error::thrown('Error:自动加载的类文件(' . $classPath . ')不存在', 500);
 		}
 
 		// #引入文件
@@ -42,6 +42,10 @@ class AutoLoad {
 		// # 对控制器文件处理，判断是否是控制器文件，文件是否存在;
 		} elseif (file_exists(\Boot\Define::$app . $path . \Boot\Define::$controllerSuffix . $suffix)) {
 			$path = \Boot\Define::$app . $path . \Boot\Define::$controllerSuffix . $suffix;
+
+		// # 对驱动进行文件判断
+		} elseif (file_exists(\Boot\Define::$DriveDir . $path . $suffix)) {
+			$path = \Boot\Define::$DriveDir . $path . $suffix;
 		}
 
 		// # 返回文件路径

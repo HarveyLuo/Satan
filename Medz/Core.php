@@ -1,6 +1,7 @@
 <?php
 use \Boot\Error;
 use \Boot\Route;
+use \Boot\Drive;
 /**
  * 核心类
  *
@@ -18,8 +19,14 @@ class Core {
 	// # 是否已经初始化
 	private static $_isInit    = false;
 
-	// #初始化
-	final public static function init() {
+	/**
+	 * 初始化
+	 *
+	 * @param string $configFileName 需要导入的配置文件名，不包含后缀
+	 * @return void
+	 * @author Medz Seven <lovevipdsw@vip.qq.com>
+	 **/
+	final public static function init($configFileName = null) {
 		// # 设置网页编码
 		header('charset=UTF-8');
 
@@ -54,6 +61,8 @@ class Core {
 			// #禁用初始化
 			self::$_isInit = true;
 		}
+
+		$configFileName and \Boot\Define::import($configFileName);
 	}
 
 	// #运行
@@ -80,9 +89,8 @@ class Core {
 	final public static function import($path) {
 		if(file_exists($path) and !in_array($path, self::$_loadlist)) {
 			array_push(self::$_loadlist, $path);
-			include $path;
+			return include $path;
 		}
-		unset($path);
 	}
 
 	// #单例获取实例类
@@ -97,9 +105,19 @@ class Core {
 
 		// # 反射实例化
 		} else {
+			// # 获取需要传入的参数
 			isset($args) or $args = func_get_args();
 						    array_shift($args);
-			$class        = call_user_func_array(array(Route::addClass($name), 'newInstance'), $args);
+
+			// # 检查类是否自封装有单例类
+			if (method_exists($name, 'getInstance')) {
+				$class = call_user_func_array($name . '::getInstance', $args);
+
+			// # 使用PHP反射类，对类构造方法进行动态传参，并实例化
+			} else {
+				$class = call_user_func_array(array(Route::addClass($name), 'newInstance'), $args);
+			}
+
 			unset($args);
 		}
 
@@ -159,6 +177,10 @@ class Core {
 		\Boot\Define::$core or \Boot\Define::$core = dirname(__FILE__) . \Boot\Define::$_;
 
 		// #设置应用所在目录
-		\Boot\Define::$app  or \Boot\Define::$core . 'Application' . \Boot\Define::$_;
+		\Boot\Define::$app  or \Boot\Define::$app  = \Boot\Define::$core . 'Application' . \Boot\Define::$_;
+
+		// # 设置驱动所在目录
+		\Boot\Define::$DriveDir or \Boot\Define::$DriveDir = \Boot\Define::$core . 'Drives' . \Boot\Define::$_;
 	}
+
 } // END class Core

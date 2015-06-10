@@ -6,7 +6,8 @@ class Error extends Exception {
 	
 	// #发送错误消息
 	public static function exception($e) {
-		var_dump($e);
+		// var_dump($e);
+		self::halt($e);
 	}
 
 	// # 致命错误异常处理
@@ -27,8 +28,12 @@ class Error extends Exception {
 	}
 
 	// # 输出异常，并终止运行
-	public static function halt(array $e) {
-		// # code...
+	public static function halt(self $e) {
+		if (isset($e->xdebug_message)) {
+			echo '<table class="xdebug-error xe-parse-error" dir="ltr" border="1" cellspacing="0" cellpadding="1">',
+				 $e->xdebug_message,
+				 '</table>';
+		}
 	}
 
 }

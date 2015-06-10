@@ -1,5 +1,5 @@
 <?php
-namespace Drive\Route;
+namespace Route;
 /**
  * pathinfo获取请求的地址数据
  *
