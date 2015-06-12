@@ -15,7 +15,7 @@ class Index extends Controller
 	 *
 	 * @return object
 	 * @author Medz Seven <lovevipdsw@vip.qq.com>
-	 * @route /id/{id|1}/{page|5}
+	 * @route /ids/{id|1}/{page|5}
 	 **/
 	public function indexAction($id , $page)
 	{
