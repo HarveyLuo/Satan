@@ -6,7 +6,7 @@ namespace Boot;
  * @package Boot.Application
  * @author Medz Seven <lovevipdsw@vip.qq.com>
  **/
-class Application
+final class Application
 {
 
 	/**
@@ -37,17 +37,28 @@ class Application
 	 **/
 	public $namespace;
 
+	/**
+	 * 用于储存伪静态下当前路由信息
+	 *
+	 * @var array
+	 **/
+	public $route;
+
+	/**
+	 * 储存应用
+	 *
+	 * @var object
+	 **/
+	protected $application;
+
 	final public function __construct() {
-		// // var_dump(basename(__FILE__));
-		// // var_dump(\Core::getInstance('\Http\Server')->get());
-		// var_dump(Route::get('Http\Post', 'get'));
-		// $info = Route::get();
-		// var_dump(scandir(\Boot\Define::$app));
-		var_dump(Route::get());
+		$this->route       = Route::get();
+		$this->application = \Core::getInstance($this->route['namespace']);
 
-		var_dump(parse_url(\Core::getInstance('\Http\Server')->getRequestURL()));
-
-		var_dump(Drive::getInstance('Route', 'PathInfo')->getDrive()->get());
+		$this->application = call_user_func_array(array(
+			$this->application,
+			$this->route['action']
+		), $this->route['param']);
 	}
 
 } // END class Application

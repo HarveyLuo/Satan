@@ -17,6 +17,13 @@ class Route
 	private static $classList = array();
 
 	/**
+	 * undocumented class variable
+	 *
+	 * @var string
+	 **/
+	public static $docs = array();
+
+	/**
 	 * 获取路由
 	 *
 	 * @return string
@@ -24,22 +31,16 @@ class Route
 	 **/
 	public static function get()
 	{
-		// self::addClass($namespace);
-		
-		// $str = self::$classList[$namespace]->getMethod($action)->getDocComment();
-		// return self::$classList[$namespace]->getMethods();
-		// return \Core::getInstance('\Drive\Route\Pathinfo')->get();
-		// return $str;
-		$docs = array();
-		foreach (self::getControllerNamespaceAll() as $namespace) {
-			self::addClass($namespace);
+		if (!self::$docs) {
+			foreach (self::getControllerNamespaceAll() as $namespace) {
+				self::addClass($namespace);
 
-			foreach (self::$classList[$namespace]->getMethods() as $doc) {
-				$docs[$namespace][$doc->name] = $doc->getDocComment();
-				// $docs[$namespace] = $doc;
+				foreach (self::$classList[$namespace]->getMethods() as $doc) {
+					self::$docs[$namespace][$doc->name] = $doc->getDocComment();
+				}
 			}
 		}
-		return $docs;
+		return Drive::getInstance('Route', 'Entry')->getDrive(self::$docs)->get();
 	}
 
 	/**
