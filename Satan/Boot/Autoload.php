@@ -44,8 +44,8 @@ class AutoLoad {
 			$path = \Boot\Define::$app . $path . \Boot\Define::$controllerSuffix . $suffix;
 
 		// # 对驱动进行文件判断
-		} elseif (file_exists(\Boot\Define::$DriveDir . $path . $suffix)) {
-			$path = \Boot\Define::$DriveDir . $path . $suffix;
+		} elseif (file_exists(\Boot\Define::$driveDir . $path . $suffix)) {
+			$path = \Boot\Define::$driveDir . $path . $suffix;
 		}
 
 		// # 返回文件路径

@@ -43,7 +43,6 @@ abstract class AbstractHttp
 	 **/
 	public function __invoke($key = null, $value = null)
 	{
-		var_dump($this);exit;
 		if ($key and $value) {
 			return $this->set($key, $value);
 		}

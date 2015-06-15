@@ -1,6 +1,6 @@
 <?php
 // # 加载核心文件
-include 'Medz/Core.php';
+include 'Satan/Core.php';
 
 // # 初始化框架
 \Core::init();
@@ -12,7 +12,7 @@ include 'Medz/Core.php';
 // # 各个目录单独配置，支持自定义相关目录位置
 
 // # 定义框架目录 <可选>
-\Boot\Define::$core  = dirname(__FILE__) . \Boot\Define::$_ . 'Medz' . \Boot\Define::$_;
+\Boot\Define::$core  = dirname(__FILE__) . \Boot\Define::$_ . 'Satan' . \Boot\Define::$_;
 
 // # 定义APP项目目录 <可选>
 \Boot\Define::$app   = dirname(__FILE__) . \Boot\Define::$_ . 'Application' . \Boot\Define::$_;

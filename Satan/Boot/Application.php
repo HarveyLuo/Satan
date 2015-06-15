@@ -53,7 +53,7 @@ final class Application
 
 	final public function __construct() {
 		$this->route       = Route::get();
-		$this->application = \Core::getInstance($this->route['namespace']);
+		$this->application = \Core::getInstance($this->route['namespace'], $this->route['url']);
 
 		$this->application = call_user_func_array(array(
 			$this->application,

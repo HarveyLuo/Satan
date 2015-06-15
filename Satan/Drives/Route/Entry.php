@@ -1,5 +1,6 @@
 <?php
 namespace Route;
+use \Boot\Error;
 /**
  * 路由驱动 - 入口文件
  *
@@ -63,7 +64,7 @@ class Entry
 				$s2 = explode('/', $s2);
 
 				foreach ($s2 as $key => $value) {
-					empty($s1[$key]) and strpos($value, '|') and $s1[$key] = substr($value, strpos($value, '|') + 1, strlen($value) - strpos($value, '}'));
+					empty($s1[$key]) and strpos($value, '|') and $s1[$key] = substr($value, strpos($value, '|') + 1, strpos($value, '}') - strlen($value));
 					empty($s1[$key]) or  array_push($_, $s1[$key]);
 					empty($s1[$key]) and array_push($_, null);
 				}
@@ -104,7 +105,8 @@ class Entry
 		return array(
 			'action'    => $___,
 			'namespace' => $__,
-			'param'     => $_
+			'param'     => $_,
+			'url'       => $url
 		);
 	}
 

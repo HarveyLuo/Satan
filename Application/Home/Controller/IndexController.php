@@ -19,9 +19,10 @@ class Index extends Controller
 	 **/
 	public function indexAction($id , $page)
 	{
-		echo '我是默认';
-		var_dump($id, $page);
-		var_dump(\Core::getInstance('\Http\Server')->get());
+		// echo '我是默认';
+		// var_dump($id, $page);
+		// var_dump(\Core::getInstance('\Http\Server')->get());
+		var_dump($this->getParam(array('a', 'B')));
 		return $this;
 	}
 
@@ -30,7 +31,7 @@ class Index extends Controller
 	 *
 	 * @return void
 	 * @author 
-	 * @route /demo/{a}/{d|a}/{c}
+	 * @route /demo/{a}/{d|haha}/{c}
 	 **/
 	public function demoAction($a, $d, $c)
 	{

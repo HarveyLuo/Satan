@@ -40,6 +40,6 @@ class Define {
 	public static $PHPFileSuffix     = '.php';
 
 	// # 定义驱动所在目录
-	public static $DriveDir;
+	public static $driveDir;
 
 }

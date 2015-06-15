@@ -180,7 +180,7 @@ class Core {
 		\Boot\Define::$app  or \Boot\Define::$app  = \Boot\Define::$core . 'Application' . \Boot\Define::$_;
 
 		// # 设置驱动所在目录
-		\Boot\Define::$DriveDir or \Boot\Define::$DriveDir = \Boot\Define::$core . 'Drives' . \Boot\Define::$_;
+		\Boot\Define::$driveDir or \Boot\Define::$driveDir = \Boot\Define::$core . 'Drives' . \Boot\Define::$_;
 	}
 
 } // END class Core
