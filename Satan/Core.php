@@ -53,11 +53,6 @@ class Core {
 			// # 自定义错误处理类
 			function_exists('set_error_handler')          and set_error_handler('\Boot\Error::errorHandler');
 
-			// #禁用字符串自动转义
-			if(function_exists('set_magic_quotes_runtime')and PHP_VERSION < '5.3.0') {
-				set_magic_quotes_runtime(false);
-			}
-
 			// #禁用初始化
 			self::$_isInit = true;
 		}
@@ -146,7 +141,7 @@ class Core {
 	// #程序必要函数检查
 	private function check() {
 		// #检查PHP版本
-		if(PHP_VERSION < '5.3.0') {
+		if(version_compare(PHP_VERSION, '5.3.0', '<')) {
 			Error::thrown('PHP版本小于程序运行最低版本（PHP Version 5.3.0）', 403);
 
 		// # 检查环境是否有set_exception_handler函数
