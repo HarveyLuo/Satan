@@ -2,6 +2,7 @@
 use \Boot\Error;
 use \Boot\Route;
 use \Boot\Drive;
+
 /**
  * 核心类
  *
@@ -67,7 +68,7 @@ class Core {
 
 		// #设置运行模式
 		self::getInstance('\Core')->runMode();
-			
+
 		// #注册自动加载方法
 		spl_autoload_register('\Boot\AutoLoad::import');
 
@@ -155,11 +156,11 @@ class Core {
 		// # 检查func_get_args函数是否存在
 		} else if(function_exists('func_get_args') === false) {
 			Error::thrown('程序所需的func_get_args函数不存在', 403);
-		
+
 		// # 检查call_user_func_array函数是否存在
 		} else if(function_exists('call_user_func_array') === false) {
 			Error::thrown('程序所需的call_user_func_array函数不存在', 403);
-			
+
 		// # 检查应用目录是否存在
 		} else if(is_dir(\Boot\Define::$app) === false) {
 			Error::thrown('应用目录“' . \Boot\Define::$app . '”不存在', 403);
