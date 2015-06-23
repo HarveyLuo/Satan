@@ -99,7 +99,8 @@ class Entry
 					array_push($_temp, substr($value, strpos($value, '|') + 1, strlen($value) - strpos($value, '}')));
 				}
 			}
-			$_ = $_temp;
+			$_   = $_temp;
+			$url = '/'; 
 		}
 
 		return array(
@@ -122,6 +123,7 @@ class Entry
 		preg_match('/@route\\s*(.*)\\s*\\n/si', $doc, $route, 0, 0);
 		isset($route['1']) and $route = preg_replace('/\\s*/', '', $route['1']);
 		is_array($route)   and $route = false;
+		\Boot\Define::$isRewriteLower and $route = strtolower($route);
 		return $route;
 	}
 
@@ -135,6 +137,7 @@ class Entry
 	{
 		$url =  \Core::getInstance('\Http\Server')->getPathInfo();
 		$url or $url = $this->getRewritePath();
+		\Boot\Define::$isRewriteLower and $url = strtolower($url);
 		return $url;
 	}
 

@@ -33,6 +33,29 @@ abstract class AbstractHttp
 			// # 转义为安全的coookie数据
 			isset($_COOKIE)  and $_COOKIE  = $this->_stripSlashes($_COOKIE);
 		}
+
+		\Boot\Define::$isParamLower and isset($_GET) and $_GET = $this->_strtolowr($_GET);
+		\Boot\Define::$isParamLower and isset($_POST) and $_POST = $this->_strtolowr($_POST);
+	}
+
+	/**
+	 * 将数据键值转换为小写，如果是数组，则转换键名
+	 *
+	 * @param array|string $data 需要转换的数据
+	 * @param bool $arrayValueToLowe [=true]
+	 * @return string | array
+	 * @author Medz Seven <lovevipdsw@vip.qq.com>
+	 **/
+	protected function _strtolowr($data, $arrayValueToLowe = false)
+	{
+		if (is_array($data)) {
+			$data = array_change_key_case($data, CASE_LOWER);
+			$arrayValueToLowe and $data = array_map(array($this, '_strtolowr'), $data, true);
+		} else {
+			$data = strtolower($data);
+		}
+
+		return $data;
 	}
 
 	/**

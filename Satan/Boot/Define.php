@@ -42,4 +42,10 @@ class Define {
 	// # 定义驱动所在目录
 	public static $driveDir;
 
+	// # 请求参数是否不区分大小写
+	public static $isParamLower       = true;
+
+	// # 是否伪静态不区分大小写
+	public static $isRewriteLower     = true;
+
 }

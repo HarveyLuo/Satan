@@ -45,6 +45,13 @@ final class Application
 	public $route;
 
 	/**
+	 * 路由参数
+	 *
+	 * @var string
+	 **/
+	public $param;
+
+	/**
 	 * 储存应用
 	 *
 	 * @var object
@@ -52,13 +59,35 @@ final class Application
 	protected $application;
 
 	final public function __construct() {
-		$this->route       = Route::get();
-		$this->application = \Core::getInstance($this->route['namespace'], $this->route['url']);
+		$this->route     = Route::get();
+		$this->namespace = $this->route['namespace'];
+		$this->action    = $this->route['action'];
+		$this->param     = $this->route['param'];
+		$this->route     = $this->route['url']; 
+
+		$this->application = \Core::getInstance($this->namespace, $this->route);
 
 		$this->application = call_user_func_array(array(
 			$this->application,
-			$this->route['action']
-		), $this->route['param']);
+			$this->action
+		), $this->param);
+
+		$this->run();
+	}
+
+	/**
+	 * 运行
+	 *
+	 * @return void
+	 * @author Medz Seven <lovevipdsw@vip.qq.com>
+	 **/
+	protected function run()
+	{
+		list($this->app, $this->controller) = explode('Controller', $this->namespace);
+
+		$this->app        = str_replace('\\', '', $this->app);
+		$this->controller = str_replace('\\', '', $this->controller); 
+		var_dump($this);
 	}
 
 } // END class Application
