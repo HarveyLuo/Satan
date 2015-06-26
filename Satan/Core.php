@@ -27,9 +27,9 @@ class Core {
 	 * @return void
 	 * @author Medz Seven <lovevipdsw@vip.qq.com>
 	 **/
-	final public static function init($configFileName = null) {
+	final public static function init() {
 		// # 设置网页编码
-		header('charset=UTF-8');
+		// header('charset=utf-8');
 
 		// #判断是否初始化过了
 		if(!self::$_isInit) {
@@ -57,8 +57,6 @@ class Core {
 			// #禁用初始化
 			self::$_isInit = true;
 		}
-
-		$configFileName and \Boot\Define::import($configFileName);
 	}
 
 	// #运行

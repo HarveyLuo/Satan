@@ -1,6 +1,6 @@
 <?php
 // # 加载核心文件
-include 'Satan/Core.php';
+include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Satan' . DIRECTORY_SEPARATOR . 'Core.php';
 
 // # 初始化框架
 \Core::init();

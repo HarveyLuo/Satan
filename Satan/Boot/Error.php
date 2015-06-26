@@ -28,7 +28,7 @@ class Error extends Exception {
 	}
 
 	// # 输出异常，并终止运行
-	public static function halt(self $e) {
+	public static function halt($e) {
 		if (isset($e->xdebug_message)) {
 			echo '<table class="xdebug-error xe-parse-error" dir="ltr" border="1" cellspacing="0" cellpadding="1">',
 				 $e->xdebug_message,
