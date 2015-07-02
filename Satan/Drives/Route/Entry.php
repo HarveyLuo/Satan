@@ -50,11 +50,7 @@ class Entry
 		$url = $this->getBasePath();
 
 		foreach ($this->routes as $namespace => $route) {
-			$route = str_replace(' ' , '', $route);
-			$route = str_replace("\n", '', $route);
-			$route = str_replace("\t", '', $route);
-
-			preg_match_all('/\{(\??)([\\w]*?)(((\|)?([\\w]*)?(\,\"(.*?)\")?)?)\}/is', $route, $matches);
+			preg_match_all('/\{(\??)(.*?)((((\|)([\\x00-\\xff]+?))?(\,\"(.*?)\")?)?)\}/is', $route, $matches);
 			
 			$route = preg_replace('/(\{.+?\})/si', '%s', $route);
 			$route = preg_quote($route, '/');
@@ -73,18 +69,18 @@ class Entry
 
 			$_default = array();
 			foreach ($matches['0'] as $key => $value) {
-				array_push($_default, $matches['6'][$key]);
+				array_push($_default, $matches['7'][$key]);
 
 				$pattern  = '';
 				
-				if ($matches['1'][$key] == '?' or $matches['5'][$key] == '|') {
+				if ($matches['1'][$key] == '?' or $matches['6'][$key] == '|') {
 					$pattern .= '?';
 				}
 
-				$matches['8'][$key] or $matches['8'][$key] = '\\w+';
-				$pattern .= '(' . $matches['8'][$key] . ')';
+				$matches['9'][$key] or $matches['9'][$key] = '\\w+';
+				$pattern .= '(' . $matches['9'][$key] . ')';
 
-				if ($matches['1'][$key] == '?' or $matches['5'][$key] == '|') {
+				if ($matches['1'][$key] == '?' or $matches['6'][$key] == '|') {
 					$pattern .= '?';
 				}
 
@@ -124,6 +120,7 @@ class Entry
 				);
 			}
 		}
+
 		Error::thrown('Uncaught error with message \'Unable to resolve the request!\'', 403);
 	}
 
@@ -210,8 +207,8 @@ class Entry
 	 **/
 	protected function getRoutePattern($doc)
 	{
-		preg_match('/@route\\s*(.*)\\s*\\n/si', $doc, $route, 0, 0);
-		isset($route['1']) and $route = preg_replace('/\\s*/', '', $route['1']);
+		preg_match('/@route\\s*(.*)\\n/si', $doc, $route, 0, 0);
+		isset($route['1']) and $route = preg_replace('/[\\s\\t\\n]*/', '', $route['1']);
 		is_array($route)   and $route = false;
 		\Boot\Define::$isRewriteLower and $route = strtolower($route);
 		return $route;
