@@ -15,12 +15,12 @@ class Index extends Controller
 	 *
 	 * @return object
 	 * @author Medz Seven <lovevipdsw@vip.qq.com>
-	 * @route /index/{id|1}/{page|5}
+	 * @route /index/id-{?id|100,"\d+"}-p-{?page|5,"\d+"}
 	 **/
 	public function indexAction($id , $page)
 	{
-		var_dump($this->url('index/%d/%s', 123, 45));
-		var_dump(\Core::getInstance('\Http\Server')->get());
+		// var_dump($this->url('index/%d/%s', 123, 45));
+		// var_dump(\Core::getInstance('\Http\Server')->get());
 		var_dump(func_get_args());
 		return $this;
 	}
@@ -30,7 +30,7 @@ class Index extends Controller
 	 *
 	 * @return void
 	 * @author 
-	 * @route /456/{a}/{d|haha}/{c}
+	 * @route /456/{a,"\d+"}/{d|haha,"\w+"}/{?c}
 	 **/
 	public function demoAction($a, $d, $c)
 	{
@@ -44,10 +44,11 @@ class Index extends Controller
 	 *
 	 * @return void
 	 * @author 
+	 * @route /
 	 **/
 	public function aaaAction()
 	{
-		echo '没有路由，无法定位';
+		echo '默认测试';
 		return $this;
 	}
 

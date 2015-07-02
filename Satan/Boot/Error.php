@@ -1,8 +1,8 @@
 <?php
 namespace Boot;
-use \Exception;
+use \ErrorException;
 defined('MEDZ') or exit('Forbidden');
-class Error extends Exception {
+class Error extends ErrorException {
 	
 	// #发送错误消息
 	public static function exception($e) {
@@ -34,6 +34,8 @@ class Error extends Exception {
 				 $e->xdebug_message,
 				 '</table>';
 		}
+		exit;
+		var_dump($e);
 	}
 
 }

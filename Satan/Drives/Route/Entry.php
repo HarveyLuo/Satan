@@ -48,7 +48,97 @@ class Entry
 	public function get()
 	{
 		$url = $this->getBasePath();
+
+		foreach ($this->routes as $namespace => $route) {
+			$route = str_replace(' ' , '', $route);
+			$route = str_replace("\n", '', $route);
+			$route = str_replace("\t", '', $route);
+
+			preg_match_all('/\{(\??)([\\w]*?)(((\|)?([\\w]*)?(\,\"(.*?)\")?)?)\}/is', $route, $matches);
+			
+			$route = preg_replace('/(\{.+?\})/si', '%s', $route);
+			$route = preg_quote($route, '/');
+			
+			$route = explode('\/', $route);
+			$route = implode(')(\/', $route);
+			$route = explode('%s', $route);
+			$route = implode(')%s(', $route);
+			$route = str_replace('()', '', $route);
+
+			$route = substr($route, 1);
+			strpos($route, '%s') and $route  = substr($route, 0, -1);
+			strpos($route, '%s') or  $route .= ')';
+			
+			$route = array($route);
+
+			$_default = array();
+			foreach ($matches['0'] as $key => $value) {
+				array_push($_default, $matches['6'][$key]);
+
+				$pattern  = '';
+				
+				if ($matches['1'][$key] == '?' or $matches['5'][$key] == '|') {
+					$pattern .= '?';
+				}
+
+				$matches['8'][$key] or $matches['8'][$key] = '\\w+';
+				$pattern .= '(' . $matches['8'][$key] . ')';
+
+				if ($matches['1'][$key] == '?' or $matches['5'][$key] == '|') {
+					$pattern .= '?';
+				}
+
+				array_push($route, $pattern);
+			}
+			
+			$route = call_user_func_array('sprintf', $route);
+			$route = '/^' . $route . '$/si';
+
+			if (preg_match_all($route, $url, $matches, 0, 0)) {
+				array_shift($matches);
+				array_shift($matches);
+				
+				foreach ($matches as $key => $value) {
+					if (($key % 2) and is_array($value)) {
+						$matches[$key] = array_shift($value);
+					} else {
+						unset($matches[$key]);
+					}
+				}
+
+				$matches = array_values($matches);
+				$matches = array_map(function($a, $b) {
+					$a and $b = $a;
+					return $b;
+				}, $matches, $_default);
+				
+				$namespace = explode($this->explode, $namespace);
+				$action    = $namespace['1'];
+				$namespace = $namespace['0'];
+
+				return array(
+					'namespace' => $namespace,
+					'action'    => $action,
+					'param'     => $matches,
+					'url'       => $url
+				);
+			}
+		}
+		Error::thrown('Uncaught error with message \'Unable to resolve the request!\'', 403);
+	}
+
+	/**
+	 * 获取
+	 *
+	 * @return array
+	 * @author Medz Seven <lovevipdsw@vip.qq.com>
+	 **/
+	public function oldGet()
+	{
+		$url = $this->getBasePath();
 		$_   = array();
+		
+		$this->demo($url, $this->routes);
 
 		foreach ($this->routes as $namespace => $route) {
 			$i  = strpos($route, '{');
