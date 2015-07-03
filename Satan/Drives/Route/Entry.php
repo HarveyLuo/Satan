@@ -242,9 +242,11 @@ class Entry
 		is_array($url)    and $url = $url['0'];
 
 		$path = \Core::getInstance('\Http\Server')->get('PHP_SELF', \Core::getInstance('\Http\Server')->get('SCRIPT_NAME'));
+		$name = basename($path);
 		$path = dirname($path);
-
+		
 		$url  = str_replace($path, '', $url);
+		$url  = str_replace($name, '', $url);
 		$url  = explode('/', $url);
 		$url  = array_filter($url, function($v) {
 			if ($v) {
@@ -255,7 +257,7 @@ class Entry
 
 		$url  = implode('/', $url);
 		substr($url, 0, 1) == '/' or $url = '/' . $url;
-
+		
 		return $url;
 	}
 
