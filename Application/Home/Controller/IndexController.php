@@ -15,7 +15,7 @@ class Index extends Controller
 	 *
 	 * @return void
 	 * @author 
-	 * @route /{首页处理|123,"\d+"}
+	 * @route /{首页处理|123,"\d+"}-demo
 	 **/
 	public function aaaAction()
 	{

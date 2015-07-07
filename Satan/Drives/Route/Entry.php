@@ -50,11 +50,12 @@ class Entry
 		$url = $this->getBasePath();
 
 		foreach ($this->routes as $namespace => $route) {
-			preg_match_all('/\{(\??)(.*?)((((\|)([\\x00-\\xff]+?))?(\,\"(.*?)\")?)?)\}/is', $route, $matches);
-			
+			// preg_match_all('/\{(\??)(.*?)((((\|)([\\x00-\\xff]+?))?(\,\"(.*?)\")?)?)\}/is', $route, $matches);
+			preg_match_all('/\{(\?)?(.*?)(?:(?:(?:(\|)([\\x00-\\xff]+?))?(?:\,\"(.*?)\")?)?)\}/is', $route, $matches);
+
 			$route = preg_replace('/(\{.+?\})/si', '%s', $route);
 			$route = preg_quote($route, '/');
-			
+
 			$route = explode('\/', $route);
 			$route = implode(')(\/', $route);
 			$route = explode('%s', $route);
@@ -62,25 +63,45 @@ class Entry
 			$route = str_replace('()', '', $route);
 
 			$route = substr($route, 1);
-			strpos($route, '%s') and $route  = substr($route, 0, -1);
-			strpos($route, '%s') or  $route .= ')';
+
+			substr($route, -3) == '%s(' and $route  = substr($route, 0, -1);
+			substr($route, -2) == '%s'  or  $route .= ')';
 			
 			$route = array($route);
 
 			$_default = array();
+			// foreach ($matches['0'] as $key => $value) {
+			// 	array_push($_default, $matches['7'][$key]);
+
+			// 	$pattern  = '';
+				
+			// 	if ($matches['1'][$key] == '?' or $matches['6'][$key] == '|') {
+			// 		$pattern .= '?';
+			// 	}
+
+			// 	$matches['9'][$key] or $matches['9'][$key] = '\\w+';
+			// 	$pattern .= '(' . $matches['9'][$key] . ')';
+
+			// 	if ($matches['1'][$key] == '?' or $matches['6'][$key] == '|') {
+			// 		$pattern .= '?';
+			// 	}
+
+			// 	array_push($route, $pattern);
+			// }
+
 			foreach ($matches['0'] as $key => $value) {
-				array_push($_default, $matches['7'][$key]);
+				array_push($_default, $matches['4'][$key]);
 
 				$pattern  = '';
 				
-				if ($matches['1'][$key] == '?' or $matches['6'][$key] == '|') {
+				if ($matches['1'][$key] == '?' or $matches['3'][$key] == '|') {
 					$pattern .= '?';
 				}
 
-				$matches['9'][$key] or $matches['9'][$key] = '\\w+';
-				$pattern .= '(' . $matches['9'][$key] . ')';
+				$matches['5'][$key] or $matches['5'][$key] = '\\w+';
+				$pattern .= '(' . $matches['5'][$key] . ')';
 
-				if ($matches['1'][$key] == '?' or $matches['6'][$key] == '|') {
+				if ($matches['1'][$key] == '?' or $matches['3'][$key] == '|') {
 					$pattern .= '?';
 				}
 
@@ -89,13 +110,17 @@ class Entry
 			
 			$route = call_user_func_array('sprintf', $route);
 			$route = '/^' . $route . '$/si';
-
+			var_dump($route);
 			if (preg_match_all($route, $url, $matches, 0, 0)) {
+				var_dump($matches);
 				array_shift($matches);
 				array_shift($matches);
-				
+
 				foreach ($matches as $key => $value) {
-					if (($key % 2) and is_array($value)) {
+					if (count($matches) == 1) {
+						$matches[$key] = array_pop($value);
+						break;
+					} elseif (($key % 2) and is_array($value)) {
 						$matches[$key] = array_shift($value);
 					} else {
 						unset($matches[$key]);
@@ -257,7 +282,7 @@ class Entry
 
 		$url  = implode('/', $url);
 		substr($url, 0, 1) == '/' or $url = '/' . $url;
-		
+
 		return $url;
 	}
 
